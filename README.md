@@ -36,3 +36,5 @@ Repository for the TQS project ChargeUnity
 
 # Architecture
 ![Architecture](resources/arquitechture/ArchitectureChargeUnity.jpg)
+
+random change
