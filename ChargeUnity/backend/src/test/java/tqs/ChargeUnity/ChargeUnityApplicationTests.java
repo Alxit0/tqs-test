@@ -10,4 +10,14 @@ class ChargeUnityApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void test() {
+		assert true;
+	}
+
+	@Test
+	void test2() {
+		assert False;
+	}
+
 }
