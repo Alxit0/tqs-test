@@ -17,7 +17,7 @@ class ChargeUnityApplicationTests {
 
 	@Test
 	void test2() {
-		assert False;
+		assert false;
 	}
 
 }
