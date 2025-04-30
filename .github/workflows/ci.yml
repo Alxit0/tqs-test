@@ -10,6 +10,10 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('ChargeUnity/backend/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
 
@@ -41,13 +45,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: target/site/jacoco/
+          path: ChargeUnity/backend/target/site/jacoco/
 
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
-          path: target/cucumber-reports/
+          path: ChargeUnity/backend/target/cucumber-reports/
 
       # Placeholder for security testing with OWASP ZAP
       - name: (Optional) Run OWASP ZAP Scan
