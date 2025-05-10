@@ -38,6 +38,9 @@ jobs:
       - name: Run Unit Tests + Generate Coverage
         run: mvn test jacoco:report
 
+      - name: Debug - List JaCoCo output
+        run: ls -la ChargeUnity/backend/target/site/jacoco
+
       - name: Run Cucumber Tests (Selenium)
         run: echo "placeholder for running Cucumber tests with Selenium"
 
