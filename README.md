@@ -1,6 +1,7 @@
 # ChargeUnity
 Repository for the TQS project ChargeUnity
 
+![CI](https://github.com/Alxit0/tqs-test/actions/workflows/ci.yml/badge.svg)
 <img src="resources/ChargeUnityLogo.png" alt="ChargeUnityLogo" width="400"/>
 
 | Student         | Roles         | Nmec   | Effort |

@@ -50,3 +50,18 @@ jobs:
       # Placeholder for security testing with OWASP ZAP
       - name: (Optional) Run OWASP ZAP Scan
         run: echo "plcaceholder for running OWASP ZAP scan"
+
+      - name: Extract coverage from JaCoCo report
+        id: coverage
+        run: |
+          COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")\d+" ChargeUnity/backend/target/site/jacoco/jacoco.xml)
+          COVERAGE_TOTAL=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" covered=\")\d+" ChargeUnity/backend/target/site/jacoco/jacoco.xml)
+          COVERAGE_PERCENT=$(( 100 * COVERAGE_TOTAL / (COVERAGE + COVERAGE_TOTAL) ))
+          echo "coverage=$COVERAGE_PERCENT" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR with code coverage
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🔍 Code coverage: **${{ steps.coverage.outputs.coverage }}%**"
