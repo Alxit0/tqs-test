@@ -12,7 +12,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: tqs-test/backend
+        working-directory: ChargeUnity/backend
 
     steps:
       - name: Checkout code
@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('tqs-test/backend/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('ChargeUnity/backend/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
 
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: tqs-test/backend/target/site/jacoco/
+          path: ChargeUnity/backend/target/site/jacoco/
 
       # Placeholder for security testing with OWASP ZAP
       - name: (Optional) Run OWASP ZAP Scan
@@ -54,8 +54,8 @@ jobs:
       - name: Extract coverage from JaCoCo report
         id: coverage
         run: |
-          COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")\d+" tqs-test/backend/target/site/jacoco/jacoco.xml)
-          COVERAGE_TOTAL=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" covered=\")\d+" tqs-test/backend/target/site/jacoco/jacoco.xml)
+          COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")\d+" ChargeUnity/backend/target/site/jacoco/jacoco.xml)
+          COVERAGE_TOTAL=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" covered=\")\d+" ChargeUnity/backend/target/site/jacoco/jacoco.xml)
           COVERAGE_PERCENT=$(( 100 * COVERAGE_TOTAL / (COVERAGE + COVERAGE_TOTAL) ))
           echo "coverage=$COVERAGE_PERCENT" >> $GITHUB_OUTPUT
 
