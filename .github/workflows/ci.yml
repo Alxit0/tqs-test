@@ -32,22 +32,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Build with Maven
-        run: mvn clean install -DskipTests
+      # - name: Build with Maven
+      #   run: mvn clean install -DskipTests
 
       - name: Run Unit Tests + Generate Coverage
         run: mvn test jacoco:report
 
-
-      - name: Upload JaCoCo Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: ChargeUnity/backend/target/site/jacoco/
+      - name: Debug Maven target folders
+        run: |
+          ls -la ChargeUnity/backend/target
+          ls -la ChargeUnity/backend/target/site
 
       - name: Debug - List JaCoCo output
         run: ls -la ChargeUnity/backend/target/site/jacoco
-        
+
       - name: Extract coverage from JaCoCo report
         id: coverage
         run: |
