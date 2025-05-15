@@ -6,8 +6,8 @@ on:
       - develop
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  build-test-and-analyze:
+    name: Build, Test, and SonarQube Analysis
     runs-on: ubuntu-latest
 
     defaults:
@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for full SonarQube analysis
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -27,64 +29,34 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('ChargeUnity/backend/pom.xml') }}
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Build with Maven
-        run: mvn clean install -DskipTests
+      - name: Pre-fetch dependencies
+        run: mvn dependency:go-offline
 
-      - name: Run Unit Tests + Generate Coverage
-        run: mvn test jacoco:report
-
-      - name: Run Cucumber Tests (Selenium)
-        run: echo "placeholder for running Cucumber tests with Selenium"
+      - name: Build, Test, Generate Coverage and Analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn clean verify \
+            -DskipITs=true \
+            -T 4 \
+            org.jacoco:jacoco-maven-plugin:report \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=Alxit0_tqs-test
 
       - name: Upload JaCoCo Coverage Report
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: ChargeUnity/backend/target/site/jacoco/
 
+      - name: Run Cucumber Tests (Selenium)
+        run: echo "placeholder for running Cucumber tests with Selenium"
+
       - name: (Optional) Run OWASP ZAP Scan
-        run: echo "plcaceholder for running OWASP ZAP scan"
-  
-  sonarqubeScan1:
-    name: SonarQubeScan1
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ChargeUnity/backend
-    
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'zulu' # Alternative distribution options are available.
-
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Alxit0_tqs-test
+        run: echo "placeholder for running OWASP ZAP scan"
