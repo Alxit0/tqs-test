@@ -192,6 +192,7 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+
 		
 		<!-- Selenium -->
         <dependency>
