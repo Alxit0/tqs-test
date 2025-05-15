@@ -3,6 +3,8 @@ Repository for the TQS project ChargeUnity
 
 <img src="resources/ChargeUnityLogo.png" alt="ChargeUnityLogo" width="400"/>
 
+temptemte
+
 | Student         | Roles         | Nmec   | Effort |
 | --------------- | ------------- | ------ | ------ |
 | Pedro Ponte     | Team Manager | 98059  | 25%    |
