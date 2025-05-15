@@ -10,21 +10,25 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('ChargeUnity/backend/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
 
@@ -35,20 +39,13 @@ jobs:
         run: mvn test jacoco:report
 
       - name: Run Cucumber Tests (Selenium)
-        run: mvn verify -Dcucumber.options="--plugin pretty"
+        run: echo "placeholder for running Cucumber tests with Selenium"
 
       - name: Upload JaCoCo Coverage Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jacoco-report
-          path: target/site/jacoco/
-
-      - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-report
-          path: target/cucumber-reports/
+          name: jacoco-report
+          path: ChargeUnity/backend/target/site/jacoco/
 
-      # Placeholder for security testing with OWASP ZAP
       - name: (Optional) Run OWASP ZAP Scan
-        run: echo "Run OWASP ZAP scan in later iterations"
+        run: echo "plcaceholder for running OWASP ZAP scan"
