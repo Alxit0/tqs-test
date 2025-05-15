@@ -11,6 +11,11 @@ jobs:
   sonarqubeScan1:
     name: SonarQubeScan1
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
+    
     steps:
       - uses: actions/checkout@v4
         with:
