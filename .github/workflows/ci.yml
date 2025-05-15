@@ -27,7 +27,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
+          restore-keys: |
+            ${{ runner.os }}-maven
 
       - name: Pre-fetch dependencies
         run: mvn dependency:go-offline
@@ -40,8 +41,8 @@ jobs:
         with:
           name: build-artifact
           path: |
-            ChargeUnity/backend/target
-            ~/.m2/repository
+            ChargeUnity/backend/target/classes
+            ChargeUnity/backend/target/*.jar
 
   test:
     name: Test and Coverage
@@ -64,7 +65,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifact
-          path: ChargeUnity/backend/
+          path: ChargeUnity/backend/target/
 
       - name: Run tests and generate coverage
         run: mvn test jacoco:report -T 4
@@ -98,11 +99,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifact
-          path: ChargeUnity/backend/
+          path: ChargeUnity/backend/target/
 
       - name: Run SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=Alxit0_tqs-test
+            -Dsonar.projectKey=Alxit0_tqs-test \
+            -Dsonar.java.binaries=target/classes
