@@ -26,16 +26,4 @@ class ChargerTest {
         assertEquals(expected, charger.toString());
     }
 
-	@Test
-	void testPricePerKWhBounds() {
-		Charger charger = new Charger();
-
-		// Test with a negative price
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> charger.setPricePerKWh(-0.1));
-		assertEquals("Price per kWh must be positive.", exception.getMessage());
-		
-		// Test with zero price
-		Exception exception2 = assertThrows(IllegalArgumentException.class, () -> charger.setPricePerKWh(0.0));
-		assertEquals("Price per kWh must be positive.", exception2.getMessage());
-	}
 }

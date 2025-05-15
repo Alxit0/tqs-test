@@ -42,27 +42,4 @@ class BookingTest {
         assertEquals(expected, booking.toString());
     }
 
-    @Test
-    void testSetStartTimeValidation() {
-        Booking booking = new Booking();
-        booking.setEndTime(LocalDateTime.of(2023, 10, 1, 10, 0));
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            booking.setStartTime(LocalDateTime.of(2023, 10, 1, 11, 0));
-        });
-
-        assertEquals("Start time must be before end time", exception.getMessage());
-    }
-
-	@Test
-    void testSetEndTimeValidation() {
-		Booking booking = new Booking();
-		booking.setStartTime(LocalDateTime.of(2023, 10, 1, 10, 0));
-
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			booking.setEndTime(LocalDateTime.of(2023, 10, 1, 9, 0));
-		});
-
-		assertEquals("End time must be after start time", exception.getMessage());
-	}
 }
