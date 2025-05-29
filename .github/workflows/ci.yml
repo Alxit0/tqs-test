@@ -1,6 +1,9 @@
 name: CI Pipeline
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -100,11 +103,15 @@ jobs:
         with:
           name: build-artifact
           path: ChargeUnity/backend/target/
-
-      - name: Run SonarQube analysis
+      
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: ChargeUnity/backend
+          args: >
+            -Dsonar.projectKey=Alxit0_tqs-test
+            -Dsonar.organization=alxit0
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=Alxit0_tqs-test \
-            -Dsonar.java.binaries=target/classes
