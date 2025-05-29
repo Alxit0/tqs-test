@@ -10,6 +10,10 @@ on:
 jobs:
   sonarcloud_manual:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
+    
     steps:
       - uses: actions/checkout@v4
         with:
