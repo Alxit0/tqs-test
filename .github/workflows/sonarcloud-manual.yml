@@ -45,8 +45,8 @@ jobs:
         with:
           projectBaseDir: ChargeUnity/backend
           args: >
-            -Dsonar.projectKey=ChargeUnity_TQS_ChargeUnity
-            -Dsonar.organization=chargeunity
+            -Dsonar.projectKey=Alxit0_tqs-test
+            -Dsonar.organization=alxit0
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
         env:
