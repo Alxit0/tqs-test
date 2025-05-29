@@ -8,6 +8,44 @@ on:
         default: 'main'
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Pre-fetch dependencies
+        run: mvn dependency:go-offline
+
+      - name: Build project
+        run: mvn clean install -DskipTests
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: |
+            ChargeUnity/backend/target/classes
+            ChargeUnity/backend/target/*.jar
+  
   sonarcloud_manual:
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +59,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+      
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: ChargeUnity/backend/target/
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
