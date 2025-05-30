@@ -40,11 +40,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Compile the backend
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       
       - name: Build backend JAR
         run: mvn clean package -DskipTests
         working-directory: ./ChargeUnity/backend
 
+      # Functional Tests Setup
       - name: Set up Docker Compose
         run: |
           docker compose -f docker-compose.yml down --volumes --remove-orphans
