@@ -16,13 +16,6 @@ jobs:
       run:
         working-directory: ./ChargeUnity
 
-    services:
-      docker:
-        image: docker:20.10.16
-        options: --privileged  # Needed for Docker-in-Docker
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-
     env:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: testdb
@@ -55,25 +48,32 @@ jobs:
       # Functional Tests Setup
       - name: Set up Docker Compose
         run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
+      - name: Start containers
+        run: |
           docker compose -f docker-compose.yml down --volumes --remove-orphans
           docker compose -f docker-compose.yml up -d --build
 
-      - name: Wait for services to be healthy
+      - name: Wait for backend and frontend to be healthy
         run: |
           echo "Waiting for backend and frontend to be healthy..."
-          docker compose -f docker-compose.yml ps
-          timeout 120 sh -c '
-            until [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q backend))" = "healthy" ] &&
-                  [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q frontend))" = "healthy" ]; do
-              echo "Waiting for services..."
-              sleep 5
-            done
-          '
+          for i in {1..30}; do
+            backend_status=$(docker inspect --format='{{.State.Health.Status}}' $(docker compose ps -q backend) || echo "unavailable")
+            frontend_status=$(docker inspect --format='{{.State.Health.Status}}' $(docker compose ps -q frontend) || echo "unavailable")
 
-      - name: Run Selenium Tests
-        run: |
-          ./mvnw verify -Dtest=FunctionalTest # or however you trigger your tests
-        working-directory: ./backend  # adjust if test runner is elsewhere
+            echo "backend: $backend_status, frontend: $frontend_status"
+            if [ "$backend_status" = "healthy" ] && [ "$frontend_status" = "healthy" ]; then
+              echo "Services are healthy!"
+              break
+            fi
+            sleep 5
+          done
+
+      - name: Run functional tests
+        run: ./mvnw verify -Dtest=FunctionalTest
+        working-directory: ./backend
 
       - name: Tear down
         if: always()
