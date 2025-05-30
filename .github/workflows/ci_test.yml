@@ -43,7 +43,7 @@ jobs:
       
       - name: Build backend JAR
         run: ./mvnw clean package -DskipTests
-        working-directory: /backend
+        working-directory: ./ChargeUnity/backend
 
       - name: Set up Docker Compose
         run: |
