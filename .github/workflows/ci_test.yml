@@ -23,6 +23,20 @@ jobs:
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
 
+    env:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+      MYSQL_PORT: 3306
+      APP_PORT: 8080
+      DB_EMAIL: test@example.com
+      DB_PASSWORD: password123
+      FRONTEND_PORT_VITE: 5173
+      VITE_APP_API_URL: http://localhost:8080
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
