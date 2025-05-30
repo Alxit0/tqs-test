@@ -73,7 +73,7 @@ jobs:
 
       - name: Run functional tests
         run: ./mvnw verify -Dtest=FunctionalTest
-        working-directory: ./backend
+        working-directory: ./ChargeUnity/backend
 
       - name: Tear down
         if: always()
