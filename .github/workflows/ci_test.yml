@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Build backend JAR
-        run: ./mvnw clean package -DskipTests
+        run: mvn clean package -DskipTests
         working-directory: ./ChargeUnity/backend
 
       - name: Set up Docker Compose
