@@ -29,13 +29,13 @@ jobs:
 
       - name: Set up Docker Compose
         run: |
-          docker-compose -f docker-compose.yml down --volumes --remove-orphans
-          docker-compose -f docker-compose.yml up -d --build
+          docker compose -f docker-compose.yml down --volumes --remove-orphans
+          docker compose -f docker-compose.yml up -d --build
 
       - name: Wait for services to be healthy
         run: |
           echo "Waiting for backend and frontend to be healthy..."
-          docker-compose -f docker-compose.yml ps
+          docker compose -f docker-compose.yml ps
           timeout 120 sh -c '
             until [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q backend))" = "healthy" ] &&
                   [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q frontend))" = "healthy" ]; do
@@ -51,4 +51,4 @@ jobs:
 
       - name: Tear down
         if: always()
-        run: docker-compose -f docker-compose.yml down --volumes --remove-orphans
+        run: docker compose -f docker-compose.yml down --volumes --remove-orphans
