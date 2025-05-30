@@ -71,6 +71,16 @@ jobs:
             sleep 5
           done
 
+      - name: Wait for frontend to start
+        run: |
+          for i in {1..30}; do
+            curl -sSf http://localhost:5173 && echo "Frontend ready" && exit 0
+            echo "Waiting for frontend..."
+            sleep 3
+          done
+          echo "Frontend failed to start"
+          exit 1
+
       - name: Run functional tests
         run: mvn test
         working-directory: ./ChargeUnity/backend
