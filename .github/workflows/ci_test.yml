@@ -12,6 +12,9 @@ on:
 jobs:
   functional-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ChargeUnity/backend
 
     services:
       docker:
