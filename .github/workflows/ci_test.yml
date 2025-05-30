@@ -72,7 +72,7 @@ jobs:
           done
 
       - name: Run functional tests
-        run: mvn verify -Dtest=FunctionalTest
+        run: mvn test -Dtest=RunCucumberTest
         working-directory: ./ChargeUnity/backend
 
       - name: Tear down
