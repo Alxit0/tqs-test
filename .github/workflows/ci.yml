@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: integration-test-results
-          path: backend/target/failsafe-reports/
+          path: ChargeUnity/backend/target/failsafe-reports/
 
   xray:
     name: Import Integration Test Results to Xray
