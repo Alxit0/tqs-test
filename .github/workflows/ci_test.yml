@@ -17,14 +17,14 @@ jobs:
         working-directory: ./ChargeUnity
 
     env:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: testpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: chargeunitydb
+      MYSQL_USER: chargeunityuser
+      MYSQL_PASSWORD: securepassword
       MYSQL_PORT: 3307:3306
       APP_PORT: 8080:8080
-      DB_EMAIL: test@example.com
-      DB_PASSWORD: password123
+      DB_EMAIL: admin@example.com
+      DB_PASSWORD: supersecret
       FRONTEND_PORT_VITE: 5173:5173
       VITE_APP_API_URL: http://localhost:8080
       GF_SECURITY_ADMIN_USER: admin
