@@ -74,7 +74,7 @@ jobs:
           java-version: '21'
 
       - name: Run tests and generate coverage
-        run: mvn test jacoco:report -T 4 -Dtest='*UnitTest,*IT,*ControllerTest'
+        run: mvn test jacoco:report -T 4 -Dtest='*Test'
 
       - name: Upload JaCoCo report
         uses: actions/upload-artifact@v4
@@ -109,7 +109,7 @@ jobs:
           path: ChargeUnity/backend/target/
 
       - name: Run integration tests
-        run: mvn verify -DskipUnitTests
+        run: mvn verify -Dtest='*IT'
       
       - name: Upload integration test results
         uses: actions/upload-artifact@v4
