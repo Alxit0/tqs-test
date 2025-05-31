@@ -74,7 +74,7 @@ jobs:
           java-version: '21'
 
       - name: Run tests and generate coverage
-        run: mvn test jacoco:report -T 4
+        run: mvn test -Punit-tests jacoco:report -T 4
 
       - name: Upload JaCoCo report
         uses: actions/upload-artifact@v4

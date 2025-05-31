@@ -464,7 +464,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
     <profiles>
         <!-- Profile for Unit Tests -->
         <profile>
@@ -500,9 +500,8 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <includes>
-                                <include>**/functional/**/*Test.java</include>
                                 <include>**/functional/**/*Steps.java</include>
-                                <include>**/functional/**/*CucumberTest.java</include>
+                                <include>**/functional/**/*CucumberTF.java</include>
                             </includes>
                             <reportsDirectory>${project.build.directory}/surefire-reports-functional</reportsDirectory>
                         </configuration>
