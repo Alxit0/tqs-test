@@ -120,7 +120,7 @@ jobs:
   xray:
     name: Import Integration Test Results to Xray
     runs-on: ubuntu-latest
-    needs: it
+    needs: integration-test
     if: always()
     steps:
       - uses: actions/checkout@v4
