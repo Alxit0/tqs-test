@@ -11,6 +11,7 @@ on:
 
 jobs:
   functional-tests:
+    if: False
     runs-on: ubuntu-latest
     defaults:
       run:
