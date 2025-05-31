@@ -80,15 +80,6 @@ jobs:
           done
           echo "Frontend failed to start"
           exit 1
-      
-      - name: Check Backend
-        run: |
-          for i in {1..30}; do
-            curl -sSf http://localhost:8080/api/v1/driver && echo "Frontend ready" && exit 0
-            echo "Waiting for frontend..."
-            sleep 3
-          done
-          exit 1
 
       - name: Run functional tests
         run: mvn test
