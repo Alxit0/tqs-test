@@ -38,6 +38,5 @@ build/
 
 ### Sensitive Information ###
 .env
-data.sql
 
 **/allure-results
