@@ -278,7 +278,7 @@ jobs:
     needs: 
       - integration-test
       - functional-tests
-    if: always()
+
     steps:
       - uses: actions/checkout@v4
 
@@ -288,9 +288,15 @@ jobs:
           name: integration-test-results
           path: backend/target/failsafe-reports/
 
+      - name: Download functional test results
+        uses: actions/download-artifact@v4
+        with:
+          name: functional-test-results
+          path: backend/target/surefire-reports-functional/
+
       - name: Check if test results exist
         run: |
-          if [ -z "$(ls -A test-results 2>/dev/null)" ]; then
+          if [ -z "$(ls -A backend/target/failsafe-reports 2>/dev/null)" ] && [ -z "$(ls -A backend/target/surefire-reports-functional 2>/dev/null)" ]; then
             echo "No test result files found. Skipping Xray upload."
             exit 0
           fi
@@ -301,5 +307,7 @@ jobs:
           xrayCloud: true
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
-          testPaths: 'test-results/*.xml'
+          testPaths: |
+            backend/target/failsafe-reports/*.xml
+            backend/target/surefire-reports-functional/*.xml
           testFormat: junit
