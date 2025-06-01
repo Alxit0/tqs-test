@@ -123,6 +123,16 @@ jobs:
           done
           echo "Frontend failed to start"
           exit 1
+      
+      - name: check backend health
+        run: |
+          for i in {1..30}; do
+            curl -sSf http://localhost:8080/api/v1/driver && echo "Backend ready" && exit 0
+            echo "Waiting for backend..."
+            sleep 3
+          done
+          echo "Backend failed to start"
+          exit 1
 
       - name: Run functional tests
         run: mvn test
