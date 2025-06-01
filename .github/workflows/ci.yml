@@ -117,6 +117,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Set up application properties
+        run: |
+          echo "Setting up application properties..."
+          ls .
+          cp ./backend/src/main/resources/application-dev.properties ./backend/src/main/resources/application.properties
 
       # Compile the backend
       - name: Set up Java
@@ -134,12 +140,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install docker-compose -y
-
-      - name: Set up application properties
-        run: |
-          echo "Setting up application properties..."
-          ls .
-          cp ./ChargeUnity/backend/src/main/resources/application-dev.properties ./ChargeUnity/backend/src/main/resources/application.properties
 
       - name: Start containers
         run: |
