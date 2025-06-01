@@ -138,6 +138,7 @@ jobs:
       - name: Set up application properties
         run: |
           echo "Setting up application properties..."
+          ls .
           cp ./ChargeUnity/backend/src/main/resources/application-dev.properties ./ChargeUnity/backend/src/main/resources/application.properties
 
       - name: Start containers
