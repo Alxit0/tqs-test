@@ -103,6 +103,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
+      
+      - name: Compile the project
+        run: mvn compile
 
       - name: Download JaCoCo report
         uses: actions/download-artifact@v4
