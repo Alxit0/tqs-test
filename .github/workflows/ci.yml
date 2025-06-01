@@ -135,6 +135,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install docker-compose -y
 
+      - name: Set up application properties
+        run: |
+          echo "Setting up application properties..."
+          cp ./ChargeUnity/backend/src/main/resources/application-dev.properties ./ChargeUnity/backend/src/main/resources/application.properties
+
       - name: Start containers
         run: |
           docker compose -f docker-compose.yml down --volumes --remove-orphans
